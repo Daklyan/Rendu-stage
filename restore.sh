@@ -39,4 +39,4 @@ chown -R mysql:mysql /var/lib/mysql
 
 #Rallumer le serveur mysql
 
-systemctl restart mysqld
+systemctl start mysqld
