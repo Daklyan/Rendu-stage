@@ -1,6 +1,6 @@
 #Connexion à mysql et exécution de snap.sql
 
-mysql -uroot -pD4rkn00bs. < snap.sql
+mysql -uroot -p < snap.sql
 
 #mount de la snapshot sur /mnt
 
