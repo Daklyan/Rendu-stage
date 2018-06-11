@@ -2,6 +2,12 @@
 Instructions
 ===============================================================================================================
 
+-----------------Prérequis---------------------------
+
+-Avoir mysql-server d'installé
+
+-Pour tester le script, utiliser la bdd test_db-master.zip
+
 -------Pour faire une backup avec backup.sh----------
 
 -Mettre snap.sql au même endroit que backup.sh pour que le script s'exécute correctement
