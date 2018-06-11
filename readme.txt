@@ -4,7 +4,8 @@ Instructions
 
 -------Pour backup.sh----------
 
--Créer un dossier /backup avant de lancer le script
+-Créer un dossier /backup avant de lancer le script :
+ mkdir /backup
 
 -Lancer le script avec sudo ou être en su
 
