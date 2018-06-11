@@ -23,9 +23,10 @@ Instructions
 
 -------Pour restaurer la BDD avec restore.sh----------
 
--Changer 'employees' dans le script par la base de donnée souhaitée pour la restauration
+-Changer 'employees' dans le script par la base de donnée souhaitée pour la restauration (base de données qui 
+ doit être présente dans le /backup)
 
--Si vous venez d'utiliser backup.sh il faut décompresser le fichier mysql.tar.gz avec la commande :
+-Si vous avez utiliser backup.sh il faut décompresser le fichier mysql.tar.gz avec la commande :
  sudo tar xf mysql.tar.gz
  avant de lancer restore.sh
 
