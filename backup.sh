@@ -1,4 +1,4 @@
-#Connexion à mysql et exécution de snap.sql
+#Connexion Ã  mysql et exÃ©cution de snap.sql
 
 mysql -uroot -pD4rkn00bs. < snap.sql
 

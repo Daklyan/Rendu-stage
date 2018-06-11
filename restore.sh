@@ -5,7 +5,7 @@
 systemctl stop mysqld
 
 
-#Copier la base de données dans le /var/lib/mysql
+#Copier la base de donnÃ©es dans le /var/lib/mysql
 
 sudo cp -rf   /mnt/ubuntu_426/var/lib/mysql/employees /var/lib/mysql/
 
