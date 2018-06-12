@@ -1,14 +1,14 @@
 ﻿# Instructions
 
-Les deux scripts présents permettent la **sauvegarde** et la **restauration** de base de donnée à partir du système de snapshot de **LVM2**.
+Les deux scripts présents permettent la **sauvegarde** et la **restauration** de base de données à partir du système de snapshots de **LVM2**.
 
 
 
 ## Prérequis
 
-* Avoir le paquet **mysql-server** (ainsi que ses dépendances) d'installé
+* Avoir le paquet **mysql-server** (ainsi que ses dépendances) d'installé(es)
 
-* Pour tester le script, utiliser la base de données inclus
+* Pour tester le script, utiliser la base de données db_test
 
 ## Installer la base de données de test
 
@@ -33,16 +33,16 @@ shell> mysql -uroot -p -t < employees.sql
   shell> mkdir /backup
   ```
 
-* Lancer le script soit avec **sudo** soit être en **su** :
+* Lancer le script soit avec **sudo** soit en étant en **su** :
   ```terminal
   shell> sudo sh backup.sh
   ```
 
-* Une fois lancé, un mot de passe sera demandé il faudra rentré celui de votre compte **root** de **mysql**
+* Une fois lancé, un mot de passe sera demandé il faudra rentrer celui de votre compte **root** de **mysql**
 
-## Restaurer une base de donnée
+## Restaurer une base de données
 
-* Dans le script changez *employees* par le nom de la base de donnée souhaitée pour la restauration (base de données qui doit être présente dans le **/backup**)
+* Dans le script changez *employees* par le nom de la base de données souhaitée pour la restauration (base de données qui doit être présente dans le **/backup**)
 
 * Si vous avez utilisé backup.sh il faut décompresser le fichier **mysql.tar.gz**, avant de lancer le script, avec la commande :
 	 ```terminal

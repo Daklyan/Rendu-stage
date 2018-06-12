@@ -6,6 +6,8 @@ FLUSH TABLES WITH READ LOCK;
 
 system lvcreate -s -n backup -L 400M /dev/centos/root
 
+system logger snapshot backup created
+
 #Débloquer les tables 
 
 UNLOCK TABLES;

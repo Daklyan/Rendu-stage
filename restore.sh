@@ -42,3 +42,5 @@ chown -R mysql:mysql /var/lib/mysql
 #Rallumer le serveur mysql
 
 systemctl start mysqld
+
+logger Files from /backup/backup/mysql/$bdd copied and replace /var/lib/mysql
