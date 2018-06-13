@@ -1,3 +1,4 @@
+﻿
 ﻿# Instructions
 
 Les deux scripts présents permettent la **sauvegarde** et la **restauration** de base de données à partir du système de snapshots de **LVM2**.
@@ -8,7 +9,10 @@ Les deux scripts présents permettent la **sauvegarde** et la **restauration** d
 
 * Avoir le paquet **mysql-server** (ainsi que ses dépendances) d'installé(es)
 
+* Installer le paquet **nfs-utils** sur la machine plus une autre machine et l'activer
+
 * Pour tester le script, utiliser la base de données db_test
+
 
 ## Installer la base de données de test
 
@@ -24,9 +28,46 @@ Ensuite il suffit d'importer la base de données :
 shell> mysql -uroot -p -t < employees.sql
 ```
 
+## Mettre en place le nfs
+
+ _Accès firewall :_
+
+```terminal
+shell> firewall-cmd --permanent --zone=public --add-service=ssh
+shell> firewall-cmd --permanent --zone=public --add-service=nfs
+shell> firewall-cmd --reload
+```
+
+_Côté serveur :_
+* Créer un répertoir nfs et attribuer les own / droits :
+ ```terminal
+ shell> mkdir /var/nfs
+ shell> chown nfsnobody:nfsnobody /var/nfs
+ shell> chmod 755 /var/nfs
+ ```
+ * Modifier le fichier exports
+ ```terminal
+ shell> nano /etc/exports
+```
+```terminal
+
+/var/nfs        IPCLIENT(rw,sync,no_subtree_check)
+
+```
+
+_Côté client_
+
+* Créer un répertoir nfs :
+```terminal
+shell> mkdir -p /mnt/nfs/var/nfs
+```
+* Mount ce répertoir :
+```terminal
+shell> mount IPSERVER:/var/nfs /mnt/nfs/var/nfs
+```
 ## Faire une backup de mysql
 
-* Mettre **snap.sql** au même endroit que **backup.sh** pour que le script s'exécute correctement 
+* Mettre **snap.sql** au même endroit que **backup.sh** pour que le script s'exécute correctement
 
 * Créer un dossier **/backup** au préalable :
   ```terminal
@@ -53,4 +94,3 @@ shell> mysql -uroot -p -t < employees.sql
 	 ```terminal
 	 shell> sudo sh restore.sh
 	 ```
-
