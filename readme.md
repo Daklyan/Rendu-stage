@@ -1,5 +1,6 @@
 ﻿
-﻿# Instructions
+
+# Instructions
 
 Les deux scripts présents permettent la **sauvegarde** et la **restauration** de base de données à partir du système de snapshots de **LVM2**.
 
@@ -94,3 +95,4 @@ shell> mount IPSERVER:/var/nfs /mnt/nfs/var/nfs
 	 ```terminal
 	 shell> sudo sh restore.sh
 	 ```
+
