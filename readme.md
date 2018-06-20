@@ -55,7 +55,10 @@ _Côté serveur :_
 /var/nfs        IPCLIENT(rw,sync,no_subtree_check)
 
 ```
-
+* Valider les modifications du fichier export
+```terminal
+shell> exportfs -a
+```
 _Côté client_
 
 * Créer un répertoir nfs :
@@ -91,4 +94,3 @@ shell> mkdir -p /mnt/nfs/var/nfs
 	 ```terminal
 	 shell> sudo sh restore.sh
 	 ```
-

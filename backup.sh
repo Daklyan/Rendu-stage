@@ -2,12 +2,15 @@
 
 source var.sh #Variables and log() function
 
-#Mount nfsn
+#Mount nfs
 
 mount $ipServer:/var/nfs $mountPoint
 
+#Nfs mounted?
+
 mount | grep $mountPoint
-if["$?" -eq 0]; then
+if["$?" -eq 0]
+then
   log('NFS mounted', INFO)
 else
   log("NFS didn't mount properly", EMERGENCY)
@@ -50,7 +53,7 @@ ssh $ipServer"systemctl restart mysqld | mysqldump -uroot -p$mysqlPassword $bdd 
 
 #Compression of the Dump
 
-tar cvf /backup/backup_$bdd-$(date +%d-%m-%Y-%H-%M-%S).tar.gz $mountPoint/backup_$bdd.sql | rm $mountPoint/backup_$bdd.sql
+tar cvf /backup/backup_$bdd-$(date +%d%m%Y-%H%M%S).tar.gz $mountPoint/backup_$bdd.sql | rm $mountPoint/backup_$bdd.sql
 
 #Unmount
 
