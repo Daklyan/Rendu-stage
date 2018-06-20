@@ -1,19 +1,19 @@
 #!/bin/sh
-ipServer = 192.168.20.40
-backupDir = /backup
-mysqlServer = localhost
-mysqlPassword = suchPassw0rd.
-mysqlData = /dev/centos/root
-bdd = employees
-nfsDirServ = /var/nfs
-mysqlDir = var/lib/mysql
-mountPoint = /mnt/nfs/var/nfs
+ipServer=192.168.20.40       #Ip of the other vm for the nfs
+backupDir=/backup            #Directory to store the dump
+mysqlServer=localhost        #mysql server if yours is not local
+mysqlPassword=suchPassw0rd.  #Root mysql password
+mysqlData=/dev/centos/root
+bdd=employees                #Name of the database you want to backup or restore
+nfsDirServ=/var/nfs          #Nfs directory server side
+mysqlDir=var/lib/mysql       #Mysql data
+mountPoint=/mnt/nfs/var/nfs
 
-function log(message,severity){
-  if[-z "$severity"]
+function log(){
+  if [ -z '$2' ]
   then
-    severity = INFO
+    2 = INFO          #Is $serverity is empty, default severity will be info
   fi
-  echo'$message'
-  logger -p local7.$severity '$message'
+  echo'$1'
+  logger -p local7.$2 '$1'
 }

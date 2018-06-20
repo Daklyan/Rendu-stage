@@ -9,7 +9,7 @@ mount $ipServer:/var/nfs $mountPoint
 #Nfs mounted?
 
 mount | grep $mountPoint
-if["$?" -eq 0]
+if [ "$?" -eq 0 ]
 then
   log('NFS mounted', INFO)
 else
@@ -24,7 +24,7 @@ mysql -uroot -p$mysqlPassword < freeze.sql #WIP
 #LV created?
 
 lvs | grep backup
-if["$?" -eq 0]
+if [ "$?" -eq 0 ]
 then
   log('lv created', INFO)
 else
@@ -39,7 +39,7 @@ mount -o nouuid $mysqlData $mountPoint
 #mysqlData is mounted?
 
 mount | grep $mysqlData
-if["$?" -eq 0]
+if [ "$?" -eq 0 ]
 then
   log('$mysqlData mounted', INFO)
 else
