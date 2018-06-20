@@ -1,34 +1,61 @@
-#Connexion à mysql et exécution de snap.sql
+#!/bin/sh
 
-mysql -uroot -p < snap.sql
+source var.sh #Variables and log() function
 
-#mount de la snapshot sur /mnt
+#Mount nfsn
 
-mount -o nouuid /dev/centos/backup /mnt
+mount $ipServer:/var/nfs $mountPoint
 
-logger Backup mounted on /mnt
+mount | grep $mountPoint
+if["$?" -eq 0]; then
+  log('NFS mounted', INFO)
+else
+  log("NFS didn't mount properly", EMERGENCY)
+  exit
+fi
 
-#Copier le contenu de la snapshot dans /backup
+#Freeze - Snapshot -Release
 
-cp -a /mnt/var/lib/mysql /backup
+mysql -uroot -p$mysqlPassword < freeze.sql #WIP
 
-logger mysql copied in /backup
+#LV created?
 
-#unmount /mnt
+lvs | grep backup
+if["$?" -eq 0]
+then
+  log('lv created', INFO)
+else
+  log("LV creation canceled - Error : creation of the LV didn't work", EMERGENCY)
+  exit
+fi
 
-umount /mnt
+#Mount snapshot on /mnt/nfs/var/nfs
 
-logger /mnt unmounted
+mount -o nouuid $mysqlData $mountPoint
 
-#Suppression de la snapshot
+#mysqlData is mounted?
 
-lvremove -y /dev/centos/backup
+mount | grep $mysqlData
+if["$?" -eq 0]
+then
+  log('$mysqlData mounted', INFO)
+else
+  log('$mysqlData did not mount properly', EMERGENCY)
+  exit
+fi
 
-logger backup snapshot destroyed
+#Dump
 
-#Compression de /backup/mysql
+ssh $ipServer"systemctl restart mysqld | mysqldump -uroot -p$mysqlPassword $bdd > $nfsDirServ/backup_$bdd.sql"
 
-tar cvf /backup/mysql.tar.gz /backup/mysql
-rm -r /backup/mysql
+#Compression of the Dump
 
-logger /backup/mysql compressed
+tar cvf /backup/backup_$bdd-$(date +%d-%m-%Y-%H-%M-%S).tar.gz $mountPoint/backup_$bdd.sql | rm $mountPoint/backup_$bdd.sql
+
+#Unmount
+
+unmount $mountPoint
+
+#Destruction of the snapshot
+
+lvremove /dev/centos/backup

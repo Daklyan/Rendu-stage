@@ -31,13 +31,6 @@ shell> mysql -uroot -p -t < employees.sql
 
 ## Mettre en place le nfs
 
-_Activer le firewall et l'autorisé au démarrage :_
-
-```terminal
-systemctl start firewalld.service
-systemctl enable firewalld.service
-```
-
  _Accès firewall :_
 
 ```terminal
@@ -68,10 +61,6 @@ _Côté client_
 * Créer un répertoir nfs :
 ```terminal
 shell> mkdir -p /mnt/nfs/var/nfs
-```
-* Mount ce répertoir :
-```terminal
-shell> mount IPSERVER:/var/nfs /mnt/nfs/var/nfs
 ```
 ## Faire une backup de mysql
 
