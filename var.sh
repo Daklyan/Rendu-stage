@@ -2,18 +2,18 @@
 ipServer = 192.168.20.40
 backupDir = /backup
 mysqlServer = localhost
-mysqlPassword = D4rkn00bs.
+mysqlPassword = suchPassw0rd.
 mysqlData = /dev/centos/root
 bdd = employees
 nfsDirServ = /var/nfs
 mysqlDir = var/lib/mysql
 mountPoint = /mnt/nfs/var/nfs
 
-function log(message,criticity){
-  if[-z "$criticity"]
+function log(message,severity){
+  if[-z "$severity"]
   then
-    criticity = INFO
+    severity = INFO
   fi
   echo'$message'
-  logger -p local7.$criticity '$message'
+  logger -p local7.$severity '$message'
 }
