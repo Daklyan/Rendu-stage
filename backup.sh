@@ -1,19 +1,21 @@
 #!/bin/sh
 
-source var.sh #Variables and log() function
+source /home/var.sh #Variables and log() function
+echo 'source done'
 
 #Mount nfs
 
 mount $ipServer:/var/nfs $mountPoint
+echo 'mount done'
 
 #Nfs mounted?
 
 mount | grep $mountPoint
 if [ "$?" -eq 0 ]
 then
-  log('NFS mounted', INFO)
+  log  'NFS mounted', info
 else
-  log("NFS didn't mount properly", EMERGENCY)
+  log "NFS didn't mount properly", emerg
   exit
 fi
 
@@ -21,14 +23,15 @@ fi
 
 mysql -uroot -p$mysqlPassword < freeze.sql #WIP
 
+
 #LV created?
 
 lvs | grep backup
 if [ "$?" -eq 0 ]
 then
-  log('lv created', INFO)
+  log 'lv created', info
 else
-  log("LV creation canceled - Error : creation of the LV didn't work", EMERGENCY)
+  log 'LV creation canceled - Error : creation of the LV didn't work', emerg
   exit
 fi
 
@@ -41,9 +44,9 @@ mount -o nouuid $mysqlData $mountPoint
 mount | grep $mysqlData
 if [ "$?" -eq 0 ]
 then
-  log('$mysqlData mounted', INFO)
+  log $mysqlData' mounted', info
 else
-  log('$mysqlData did not mount properly', EMERGENCY)
+  log $mysqlData' did not mount properly', emerg
   exit
 fi
 
