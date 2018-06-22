@@ -1,37 +1,41 @@
 ﻿
+﻿
 
 # Instructions
 
-Les deux scripts présents permettent la **sauvegarde** et la **restauration** de base de données à partir du système de snapshots de **LVM2**.
+The scripts allows you to **backup** and **restore** a database from **LVM2** snapshots.
 
 
 
-## Prérequis
+## Requirements
 
-* Avoir le paquet **mysql-server** (ainsi que ses dépendances) d'installé(es)
+* **mysql-server** package installed
 
-* Installer le paquet **nfs-utils** sur la machine plus une autre machine et l'activer
+*  **nfs-utils** package installed and activated + an athore vm (for database slave)
 
-* Pour tester le script, utiliser la base de données db_test
+* db_test for testing the scripts
 
 
-## Installer la base de données de test
+##  How to install the database for the tests
 
-Pour pouvoir dézipper la base de données vous aurez besoin d'un outil qui peut lire les .zip comme **winzip** que nous allons utiliser dans l'exemple :
+To unzip the database you'll need a tool that can read .zip like **winzip** that we'll use in this exemple :
 
 ```terminal
 shell> unzip test_db-master.zip
 shell> cd test_db-master/
 ```
-Ensuite il suffit d'importer la base de données :
+Then import the database :
 
 ```terminal
 shell> mysql -uroot -p -t < employees.sql
 ```
 
-## Mettre en place le nfs
+## Set up of the NFS
+_Script modification :_
 
- _Accès firewall :_
+Change the variable ipServer in var.sh by the ip of your vm that will be the nfs server
+
+ _Firewall access :_
 
 ```terminal
 shell> firewall-cmd --permanent --zone=public --add-service=ssh
@@ -39,14 +43,14 @@ shell> firewall-cmd --permanent --zone=public --add-service=nfs
 shell> firewall-cmd --reload
 ```
 
-_Côté serveur :_
-* Créer un répertoir nfs et attribuer les own / droits :
+_Server side :_
+* Create a directory nfs and give the own / rights  :
  ```terminal
  shell> mkdir /var/nfs
  shell> chown nfsnobody:nfsnobody /var/nfs
  shell> chmod 755 /var/nfs
  ```
- * Modifier le fichier exports
+ * Modify exports file
  ```terminal
  shell> nano /etc/exports
 ```
@@ -55,42 +59,30 @@ _Côté serveur :_
 /var/nfs        IPCLIENT(rw,sync,no_subtree_check)
 
 ```
-* Valider les modifications du fichier export
+* Save changes on exports
 ```terminal
 shell> exportfs -a
 ```
-_Côté client_
+_Client side_
 
-* Créer un répertoir nfs :
+* Create a nfs directory :
 ```terminal
 shell> mkdir -p /mnt/nfs/var/nfs
 ```
-## Faire une backup de mysql
+## Backup of mysql
 
-* Mettre **snap.sql** au même endroit que **backup.sh** pour que le script s'exécute correctement
-
-* Créer un dossier **/backup** au préalable :
+* Create a directory **/backup** before anything:
   ```terminal
   shell> mkdir /backup
   ```
 
-* Lancer le script soit avec **sudo** soit en étant en **su** :
+* Launch backup.sh with **sudo** or in **su** :
   ```terminal
   shell> sudo sh backup.sh
   ```
 
-* Une fois lancé, un mot de passe sera demandé il faudra rentrer celui de votre compte **root** de **mysql**
+* Once it's launched a password we'll be asked, enter your **root** password for **mysql**
 
-## Restaurer une base de données
+## Restore a database
 
-* Dans le script changez *employees* par le nom de la base de données souhaitée pour la restauration (base de données qui doit être présente dans le **/backup**)
-
-* Si vous avez utilisé backup.sh il faut décompresser le fichier **mysql.tar.gz**, avant de lancer le script, avec la commande :
-	 ```terminal
-	 shell> sudo tar xf mysql.tar.gz
-	 ```
-
-* Lancer le script en **sudo** ou être en **su** :
-	 ```terminal
-	 shell> sudo sh restore.sh
-	 ```
+**WORK IN PROGRESS**
