@@ -10,10 +10,11 @@ mountPoint=/mnt/nfs/var/nfs
 mysqlSnap=/dev/centos/backup
 
 log(){
-  if [ -z "$2" ]
- then
-    2=INFO #If $serverity is empty, default severity will be info
+  message=$1
+  severity=$2
+  if [ -z "$serverity" ]; then
+    severity=info #If $serverity is empty, default severity will be info
   fi
-  echo $1
-  logger -p local7.$2 $1
+  echo $message
+  logger -p local7.$severity $message
 }

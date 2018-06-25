@@ -9,9 +9,8 @@ mount $ipServer:/var/nfs $mountPoint
 #Nfs mounted?
 
 mount | grep $mountPoint
-if [ "$?" -eq 0 ]
-then
-  log  'NFS mounted' info
+if [ "$?" -eq 0 ]; then
+  log  'NFS mounted'
 else
   log "NFS didn't mount properly" emerg
   exit
@@ -19,17 +18,17 @@ fi
 
 #Freeze - Snapshot -Release
 
-mysql -uroot -p$mysqlPassword < freeze.sql #WIP
+mysql -uroot -p$mysqlPassword < freeze.sql
 
 
 #LV created?
 
 lvs | grep backup
-if [ "$?" -eq 0 ]
-then
-  log 'LV created' info
+if [ "$?" -eq 0 ]; then
+  log 'LV created'
 else
   log "LV creation canceled - Error : creation of the LV didn't work" emerg
+  umount $mountPoint
   exit
 fi
 
@@ -40,17 +39,19 @@ mount -o nouuid $mysqlSnap $mountPoint
 #mysqlData is mounted?
 
 mount | grep $mysqlSnap
-if [ "$?" -eq 0 ]
-then
-  log $mysqlSnap' mounted' info
+if [ "$?" -eq 0 ]; then
+  log "$mysqlSnap mounted"
 else
-  log $mysqlSnap' did not mount properly' emerg
+  log "$mysqlSnap did not mount properly" emerg
+  umount $mountPoint
+  lvremove -y /dev/centos/backup
   exit
 fi
 
 #Dump
 
-ssh $ipServer"systemctl restart mysqld | mysqldump -uroot -p$mysqlPassword $bdd > $nfsDirServ/backup_$bdd.sql"
+ssh $ipServer "systemctl restart mysqld\"
+mysqldump -uroot -p$mysqlPassword $bdd > $nfsDirServ/backup_$bdd.sql\""
 
 #Compression of the Dump
 
@@ -62,4 +63,4 @@ unmount $mountPoint
 
 #Destruction of the snapshot
 
-lvremove /dev/centos/backup
+lvremove -y /dev/centos/backup
