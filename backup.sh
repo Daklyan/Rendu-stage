@@ -59,7 +59,7 @@ tar cvf /backup/backup_$bdd-$(date +%d%m%Y-%H%M%S).tar.gz $mountPoint/backup_$bd
 
 #Unmount
 
-unmount $mountPoint
+umount $mountPoint
 
 #Destruction of the snapshot
 
